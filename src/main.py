@@ -15,6 +15,9 @@ screen_height = 800
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("Flappy Bird")
 
+font = pygame.font.SysFont("Bauhaus 93", 60)
+text_color = (255, 255, 255)
+
 scroll = 0
 scroll_speed = 4
 flying = False
@@ -25,6 +28,8 @@ bottom_pipe_position = -1
 # Milliseconds
 pipe_frequency = 1500
 last_pipe = pygame.time.get_ticks() - pipe_frequency
+score = 0
+pass_pipe = False
 
 # Load images
 dirname = os.path.dirname(__file__)
@@ -32,6 +37,10 @@ background_path = os.path.join(dirname, "../assets/background.png")
 floor_path = os.path.join(dirname, "../assets/floor.png")
 background = pygame.image.load(background_path)
 floor = pygame.image.load(floor_path)
+
+def draw_text(text, font, text_color, x, y):
+  img = font.render(text, True, text_color)
+  screen.blit(img, (x, y))
 
 bird_group = pygame.sprite.Group()
 pipe_group = pygame.sprite.Group()
@@ -52,6 +61,19 @@ while run:
   pipe_group.draw(screen)
 
   screen.blit(floor, (scroll, background.get_height()))
+
+  # Check the score
+  if len(pipe_group) > 0:
+    if bird_group.sprites()[0].rect.left > pipe_group.sprites()[0].rect.left\
+      and bird_group.sprites()[0].rect.right < pipe_group.sprites()[0].rect.right\
+      and pass_pipe == False:
+      pass_pipe = True
+    if pass_pipe == True:
+      if bird_group.sprites()[0].rect.left > pipe_group.sprites()[0].rect.right:
+        score += 1
+        pass_pipe = False
+    
+  draw_text(str(score), font, text_color, int(screen_width / 2), 20)
 
   # Check for collisions
   if pygame.sprite.groupcollide(bird_group, pipe_group, False, False) or flappy.rect.top < 0:
