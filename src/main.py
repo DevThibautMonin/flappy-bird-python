@@ -7,8 +7,8 @@ pygame.init()
 clock = pygame.time.Clock()
 fps = 60
 
-screen_width = 850
-screen_height = 850
+screen_width = 1000
+screen_height = 1000
 
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("Flappy Bird")
@@ -35,12 +35,11 @@ while run:
   clock.tick(fps)
 
   screen.blit(background, (0, 0))
-
-  bird_group.draw(screen)
-  bird_group.update()
-
   screen.blit(floor, (scroll, background.get_height()))
   scroll -= scroll_speed
+
+  bird_group.draw(screen)
+  bird_group.update(background.get_height())
 
   if abs(scroll) > 35:
     scroll = 0

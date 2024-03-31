@@ -16,8 +16,25 @@ class Bird(pygame.sprite.Sprite):
     self.image = self.images[self.index]
     self.rect = self.image.get_rect()
     self.rect.center = [x, y]
+    self.velocity = 0
+    self.clicked = False
 
-  def update(self):
+  def update(self, height):
+
+    # Gravity
+    self.velocity += 0.5
+    if self.velocity > 8:
+      self.velocity = 8
+    if self.rect.bottom < height:
+      self.rect.y += int(self.velocity)
+
+    # Jump
+    if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False:
+      self.clicked = True
+      self.velocity = -10
+    if pygame.mouse.get_pressed()[0] == 0:
+      self.clicked = False
+
     self.counter += 1
     flap_cooldown = 5
 
