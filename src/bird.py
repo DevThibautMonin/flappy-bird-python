@@ -19,7 +19,7 @@ class Bird(pygame.sprite.Sprite):
     self.velocity = 0
     self.clicked = False
 
-  def update(self, height, flying):
+  def update(self, height, flying, game_over):
 
     # Gravity
     if flying:
@@ -29,23 +29,26 @@ class Bird(pygame.sprite.Sprite):
       if self.rect.bottom < height:
         self.rect.y += int(self.velocity)
 
-    # Jump
-    if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False:
-      self.clicked = True
-      self.velocity = -10
-    if pygame.mouse.get_pressed()[0] == 0:
-      self.clicked = False
+    if game_over == False:
+      # Jump
+      if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False:
+        self.clicked = True
+        self.velocity = -10
+      if pygame.mouse.get_pressed()[0] == 0:
+        self.clicked = False
 
-    # Animation
-    self.counter += 1
-    flap_cooldown = 5
+      # Animation
+      self.counter += 1
+      flap_cooldown = 5
 
-    if self.counter > flap_cooldown:
-      self.counter = 0
-      self.index += 1
-      if self.index >= len(self.images):
-        self.index = 0
-    self.image = self.images[self.index]
+      if self.counter > flap_cooldown:
+        self.counter = 0
+        self.index += 1
+        if self.index >= len(self.images):
+          self.index = 0
+      self.image = self.images[self.index]
 
-    # Rotation
-    self.image = pygame.transform.rotate(self.images[self.index], self.velocity * -2)
+      # Rotation
+      self.image = pygame.transform.rotate(self.images[self.index], self.velocity * -2)
+    else:
+      self.image = pygame.transform.rotate(self.images[self.index], -90)

@@ -16,6 +16,7 @@ pygame.display.set_caption("Flappy Bird")
 scroll = 0
 scroll_speed = 4
 flying = False
+game_over = False
 
 # Load images
 dirname = os.path.dirname(__file__)
@@ -36,19 +37,26 @@ while run:
   clock.tick(fps)
 
   screen.blit(background, (0, 0))
-  screen.blit(floor, (scroll, background.get_height()))
-  scroll -= scroll_speed
 
   bird_group.draw(screen)
-  bird_group.update(background.get_height(), flying)
+  bird_group.update(background.get_height(), flying, game_over)
 
-  if abs(scroll) > 35:
-    scroll = 0
+  screen.blit(floor, (scroll, background.get_height()))
+
+  # Game over
+  if flappy.rect.bottom > background.get_height():
+    game_over = True
+    flying = False
+
+  if game_over == False:
+    scroll -= scroll_speed
+    if abs(scroll) > 35:
+      scroll = 0
 
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
       run = False
-    if event.type == pygame.MOUSEBUTTONDOWN and flying == False:
+    if event.type == pygame.MOUSEBUTTONDOWN and flying == False and game_over == False:
       flying = True
 
   pygame.display.update()
