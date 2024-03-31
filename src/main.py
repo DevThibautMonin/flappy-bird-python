@@ -26,7 +26,6 @@ game_over = False
 pipe_gap = 150
 top_pipe_position = 1
 bottom_pipe_position = -1
-# Milliseconds
 pipe_frequency = 1500
 last_pipe = pygame.time.get_ticks() - pipe_frequency
 score = 0
