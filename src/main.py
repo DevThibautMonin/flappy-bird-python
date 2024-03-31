@@ -1,5 +1,6 @@
 import pygame
 import os
+import bird
 
 pygame.init()
 
@@ -22,6 +23,11 @@ floor_path = os.path.join(dirname, "../assets/floor.png")
 background = pygame.image.load(background_path)
 floor = pygame.image.load(floor_path)
 
+bird_group = pygame.sprite.Group()
+
+flappy = bird.Bird(100, int(screen_height / 2))
+bird_group.add(flappy)
+
 run = True
 
 while run:
@@ -29,6 +35,9 @@ while run:
   clock.tick(fps)
 
   screen.blit(background, (0, 0))
+
+  bird_group.draw(screen)
+
   screen.blit(floor, (scroll, background.get_height()))
   scroll -= scroll_speed
 
