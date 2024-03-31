@@ -35,6 +35,7 @@ class Bird(pygame.sprite.Sprite):
     if pygame.mouse.get_pressed()[0] == 0:
       self.clicked = False
 
+    # Animation
     self.counter += 1
     flap_cooldown = 5
 
@@ -44,3 +45,6 @@ class Bird(pygame.sprite.Sprite):
       if self.index >= len(self.images):
         self.index = 0
     self.image = self.images[self.index]
+
+    # Rotation
+    self.image = pygame.transform.rotate(self.images[self.index], self.velocity * -2)
