@@ -37,6 +37,7 @@ while run:
   screen.blit(background, (0, 0))
 
   bird_group.draw(screen)
+  bird_group.update()
 
   screen.blit(floor, (scroll, background.get_height()))
   scroll -= scroll_speed
